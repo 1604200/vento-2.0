@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STO Status</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sto.css" />
+</head>
+<body>
+  <div id="globalToast" class="toast-stack"></div>
+
+  <main class="sto-app" id="stoApp">
+    <aside class="sto-sidebar" id="stoSidebar">
+      <div class="sto-brand">AHM</div>
+
+      <div class="sto-sidebar-panel">
+        <div class="sto-sidebar-title">STO</div>
+        <div class="sto-sidebar-list" id="categoryList"></div>
+      </div>
+    </aside>
+
+    <button class="sto-side-toggle" id="toggleSidebarBtn" aria-label="Toggle sidebar">
+      <span id="toggleSidebarSymbol">&gt;</span>
+    </button>
+
+    <section class="sto-content" id="stoContent">
+      <div class="sto-topbar">
+        <div class="sto-topbar-left">
+          <div class="sto-total-record">
+            <span>Totalan record :</span>
+            <div class="sto-top-chips" id="topRecordChips"></div>
+          </div>
+        </div>
+
+        <div class="sto-topbar-right">
+          <button class="sto-add-btn" id="openCreateBtn" aria-label="Tambah data">+</button>
+
+          <label class="sto-search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari data STO..."
+              autocomplete="off"
+            />
+            <span class="sto-search-icon">🔍</span>
+          </label>
+        </div>
+      </div>
+
+      <section class="sto-filter-bar">
+        <div class="filter-group">
+          <span class="filter-label">Filter</span>
+
+          <select id="filterPartNumber">
+            <option value="">Part Number</option>
+          </select>
+
+          <select id="filterDescription">
+            <option value="">Deskripsi</option>
+          </select>
+
+          <select id="filterSeksi">
+            <option value="">Seksi</option>
+          </select>
+
+          <select id="filterPic">
+            <option value="">PIC</option>
+          </select>
+
+          <select id="filterStockSesuai">
+            <option value="">Stock Sesuai</option>
+            <option value="IYA">IYA</option>
+            <option value="TIDAK">TIDAK</option>
+          </select>
+
+          <select id="filterWaktu">
+            <option value="">Waktu</option>
+            <option value="today">Hari Ini</option>
+            <option value="7days">7 Hari Terakhir</option>
+            <option value="30days">30 Hari Terakhir</option>
+          </select>
+
+          <input type="date" id="filterTanggal" class="filter-date" />
+
+          <button type="button" class="filter-reset-btn" id="resetFilterBtn">Reset Filter</button>
+        </div>
+      </section>
+
+      <section class="sto-table-card">
+        <div class="sto-table-header">
+          <div>Status</div>
+          <div>Part Number</div>
+          <div>Deskripsi</div>
+          <div>Stock Akhir</div>
+          <div>Seksi</div>
+          <div>Rak</div>
+          <div>Stock Sesuai</div>
+          <div>Waktu</div>
+          <div>PIC</div>
+          <div>Edit</div>
+        </div>
+
+        <div class="sto-table-body" id="tableBody"></div>
+
+        <div class="sto-empty hidden" id="emptyState">
+          Data STO tidak ditemukan.
+        </div>
+      </section>
+    </section>
+
+    <section class="sto-detail hidden" id="detailPanel">
+      <div class="sto-detail-top">
+        <button class="sto-back-btn" id="closeDetailBtn" aria-label="Kembali ke tabel">←</button>
+        <h2>Detail STO</h2>
+      </div>
+
+      <div class="sto-detail-grid">
+        <div class="sto-detail-image-card">
+          <div class="sto-detail-image-wrap">
+            <img id="detailImage" alt="Gambar Part" />
+          </div>
+          <p class="sto-detail-image-note">
+            Gambar part otomatis diambil dari data STOCK berdasarkan Part Number atau Nama Stock.
+          </p>
+        </div>
+
+        <div class="sto-detail-info-card">
+          <div class="detail-row"><span>Status</span><strong id="detailStatus"></strong></div>
+          <div class="detail-row"><span>Part Number</span><strong id="detailPartNumber"></strong></div>
+          <div class="detail-row"><span>Deskripsi</span><strong id="detailDescription"></strong></div>
+          <div class="detail-row"><span>Stock Akhir</span><strong id="detailStockAkhir"></strong></div>
+          <div class="detail-row"><span>Seksi</span><strong id="detailSeksi"></strong></div>
+          <div class="detail-row"><span>Rak</span><strong id="detailRak"></strong></div>
+          <div class="detail-row"><span>Stock Sesuai</span><strong id="detailStockSesuai"></strong></div>
+          <div class="detail-row"><span>Waktu</span><strong id="detailWaktu"></strong></div>
+          <div class="detail-row"><span>PIC</span><strong id="detailPic"></strong></div>
+          <div class="detail-row"><span>PWES</span><strong id="detailPwes"></strong></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="sto-index-back-btn" id="backToIndexBtn" aria-label="Kembali ke index">
+    ←
+  </button>
+
+  <div class="sto-modal hidden" id="formModal">
+    <div class="sto-modal-backdrop" id="formModalBackdrop"></div>
+
+    <div class="sto-modal-panel">
+      <div class="sto-modal-header">
+        <div>
+          <h2 id="formTitle">Tambah Data STO</h2>
+          <p>Isi data STO dan pilih IYA / TIDAK untuk Stock Sesuai.</p>
+        </div>
+
+        <button class="sto-modal-close" id="closeFormBtn">×</button>
+      </div>
+
+      <form id="stoForm" class="sto-form">
+        <input type="hidden" id="editId" />
+
+        <div class="sto-form-grid">
+          <label class="sto-form-group">
+            <span>Status</span>
+            <select id="statusInput" required>
+              <option value="STO">STO</option>
+              <option value="NON-STO">NON-STO</option>
+            </select>
+          </label>
+
+          <label class="sto-form-group">
+            <span>PWES</span>
+            <select id="pwesInput" required>
+              <option value="">Pilih PWES</option>
+              <option value="PWES1">PWES1</option>
+              <option value="PWES2">PWES2</option>
+              <option value="PWES3">PWES3</option>
+              <option value="PWES4">PWES4</option>
+              <option value="PWES6">PWES6</option>
+            </select>
+          </label>
+
+          <label class="sto-form-group">
+            <span>Part Number</span>
+            <input type="text" id="partNumberInput" required placeholder="Contoh: CM-MTL-00261" />
+          </label>
+
+          <label class="sto-form-group">
+            <span>Deskripsi</span>
+            <input type="text" id="descriptionInput" required placeholder="Contoh: RING M10 LOKAL" />
+          </label>
+
+          <label class="sto-form-group">
+            <span>Stock Akhir</span>
+            <input type="number" id="stockAkhirInput" required min="0" placeholder="0" />
+          </label>
+
+          <label class="sto-form-group">
+            <span>Seksi</span>
+            <input type="text" id="seksiInput" required placeholder="Contoh: PWES4" />
+          </label>
+
+          <label class="sto-form-group">
+            <span>Rak</span>
+            <input type="text" id="rakInput" required placeholder="Contoh: R.3 3-2A" />
+          </label>
+
+          <label class="sto-form-group">
+            <span>PIC</span>
+            <input type="text" id="picInput" required placeholder="Contoh: Imam R. R" />
+          </label>
+
+          <label class="sto-form-group sto-form-group--wide">
+            <span>Waktu</span>
+            <input type="datetime-local" id="waktuInput" required />
+          </label>
+        </div>
+
+        <div class="sto-binary-select">
+          <span>Stock Sesuai</span>
+          <div class="sto-binary-buttons">
+            <button type="button" class="binary-btn binary-btn--yes" id="chooseYesBtn">✔ IYA</button>
+            <button type="button" class="binary-btn binary-btn--no" id="chooseNoBtn">✖ TIDAK</button>
+          </div>
+          <input type="hidden" id="stockSesuaiInput" required />
+        </div>
+
+        <div class="sto-form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelFormBtn">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="rowTemplate">
+    <article class="sto-row">
+      <div class="col-status"></div>
+      <div class="col-part-number"></div>
+      <div class="col-description"></div>
+      <div class="col-stock-akhir"></div>
+      <div class="col-seksi"></div>
+      <div class="col-rak"></div>
+      <div class="col-stock-sesuai"></div>
+      <div class="col-waktu"></div>
+      <div class="col-pic"></div>
+      <div class="col-edit"></div>
+    </article>
+  </template>
+
+  <script src="sto.js"></script>
+</body>
+</html>

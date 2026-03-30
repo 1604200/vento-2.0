@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perlu Stock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="pc.css"/>
+</head>
+<body>
+  <div id="pcToast" class="pc-toast-stack"></div>
+
+  <main class="pc-app">
+    <aside class="pc-sidebar">
+      <div class="pc-sidebar-top">
+        <div class="pc-brand">AHM</div>
+        <button class="pc-back-sidebar-btn" id="backToIndexBtn" type="button" title="Kembali ke index">←</button>
+      </div>
+
+      <div class="pc-sidebar-panel">
+        <div class="pc-sidebar-title">PERLU STOCK</div>
+        <div class="pc-sidebar-desc">
+          Data otomatis dari Check Stock yang memiliki stock akhir kurang dari 10.
+        </div>
+
+        <div class="pc-summary-card">
+          <div class="pc-summary-label">Total Item Perlu Cek</div>
+          <div class="pc-summary-value" id="needCount">0</div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="pc-content">
+      <div class="pc-topbar">
+        <div class="pc-topbar-left">
+          <h1>DATA PERLU CEK / PEMBELIAN</h1>
+          <p>Item ini muncul otomatis jika Stock Akhir kurang dari 10.</p>
+        </div>
+
+        <div class="pc-topbar-right">
+          <button class="pc-download-btn" id="downloadBtn" type="button" title="Download Excel">⬇</button>
+        </div>
+      </div>
+
+      <section class="pc-filter-bar">
+        <label class="pc-search-box">
+          <input type="text" id="searchInput" placeholder="Cari part number / deskripsi / seksi..." autocomplete="off" />
+          <span class="pc-search-icon">🔍</span>
+        </label>
+
+        <select id="filterSeksi">
+          <option value="ALL">Semua Seksi</option>
+        </select>
+
+        <select id="filterStatusPn">
+          <option value="ALL">Semua Status PN</option>
+        </select>
+
+        <select id="filterKategoriPn">
+          <option value="ALL">Semua Kategori PN</option>
+        </select>
+
+        <button type="button" class="pc-reset-btn" id="resetFilterBtn">Reset Filter</button>
+      </section>
+
+      <section class="pc-table-card">
+        <div class="pc-table-scroll">
+          <div class="pc-table-header">
+            <div>Part Number</div>
+            <div>STO</div>
+            <div>Deskripsi</div>
+            <div>Satuan</div>
+            <div>Harga</div>
+            <div>Stock Awal</div>
+            <div>Stock Masuk</div>
+            <div>Stock Keluar</div>
+            <div>Stock Akhir</div>
+            <div>Total Harga</div>
+            <div>Seksi</div>
+            <div>Lokasi</div>
+            <div>Status PN</div>
+            <div>QR Code</div>
+            <div>Grade</div>
+            <div>Terakhir STO</div>
+            <div>Stock Sesuai</div>
+            <div>Note STO</div>
+            <div>Level Stock</div>
+            <div>SRD</div>
+            <div>Status Stock</div>
+            <div>Type</div>
+            <div>Group</div>
+            <div>Lama Order</div>
+            <div>Efek Kerusakan</div>
+            <div>Waktu Pengganti</div>
+            <div>Lemari</div>
+            <div>Kategori PN</div>
+            <div>Status Refill</div>
+          </div>
+
+          <div class="pc-table-body" id="tableBody"></div>
+        </div>
+
+        <div class="pc-empty hidden" id="emptyState">
+          Tidak ada data perlu stock.
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <template id="pcRowTemplate">
+    <article class="pc-row">
+      <div class="col-partNumber"></div>
+      <div class="col-sto"></div>
+      <div class="col-description"></div>
+      <div class="col-satuan"></div>
+      <div class="col-harga"></div>
+      <div class="col-stockAwal"></div>
+      <div class="col-stockMasuk"></div>
+      <div class="col-stockKeluar"></div>
+      <div class="col-stockAkhir"></div>
+      <div class="col-totalHarga"></div>
+      <div class="col-seksi"></div>
+      <div class="col-lokasi"></div>
+      <div class="col-statusPn"></div>
+      <div class="col-qrCode"></div>
+      <div class="col-grade"></div>
+      <div class="col-terakhirSto"></div>
+      <div class="col-stockSesuai"></div>
+      <div class="col-noteSto"></div>
+      <div class="col-levelStock"></div>
+      <div class="col-srd"></div>
+      <div class="col-statusStock"></div>
+      <div class="col-type"></div>
+      <div class="col-group"></div>
+      <div class="col-lamaOrder"></div>
+      <div class="col-efekKerusakan"></div>
+      <div class="col-waktuPengganti"></div>
+      <div class="col-lemari"></div>
+      <div class="col-kategoriPn"></div>
+      <div class="col-refillStatus"></div>
+    </article>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="pc.js"></script>
+</body>
+</html>

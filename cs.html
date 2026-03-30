@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check Stock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cs.css" />
+</head>
+<body>
+  <div id="globalToast" class="toast-stack"></div>
+
+  <main class="cs-app" id="csApp">
+    <aside class="cs-sidebar" id="csSidebar">
+      <div class="cs-brand">AHM</div>
+
+      <div class="cs-sidebar-panel">
+        <div class="cs-sidebar-title">CHECK STOCK</div>
+        <div class="cs-sidebar-list" id="categoryList"></div>
+      </div>
+    </aside>
+
+    <button class="cs-side-toggle" id="toggleSidebarBtn" aria-label="Toggle sidebar">
+      <span id="toggleSidebarSymbol">&gt;</span>
+    </button>
+
+    <section class="cs-content" id="csContent">
+      <div class="cs-topbar">
+        <div class="cs-topbar-left">
+          <div class="cs-total-record">
+            <span>Totalan record :</span>
+            <div class="cs-top-chips" id="topRecordChips"></div>
+          </div>
+        </div>
+
+        <div class="cs-topbar-right">
+          <button class="cs-add-btn" id="openCreateBtn" type="button" aria-label="Tambah data">+</button>
+
+          <label class="cs-search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari CHECK STOCK..."
+              autocomplete="off"
+            />
+            <span class="cs-search-icon">🔍</span>
+          </label>
+        </div>
+      </div>
+
+      <section class="cs-filter-bar">
+        <div class="filter-group">
+          <span class="filter-label">Filter</span>
+
+          <select id="filterPartNumber">
+            <option value="">Part Number</option>
+          </select>
+
+          <select id="filterDescription">
+            <option value="">Deskripsi</option>
+          </select>
+
+          <select id="filterSeksi">
+            <option value="">Seksi</option>
+          </select>
+
+          <select id="filterStatusPn">
+            <option value="">Status PN</option>
+          </select>
+
+          <select id="filterStockSesuai">
+            <option value="">Stock Sesuai</option>
+            <option value="IYA">IYA</option>
+            <option value="TIDAK">TIDAK</option>
+          </select>
+
+          <select id="filterKategoriPn">
+            <option value="">Kategori PN</option>
+          </select>
+
+          <button type="button" class="filter-reset-btn" id="resetFilterBtn">Reset Filter</button>
+        </div>
+      </section>
+
+      <section class="cs-table-card">
+        <div class="cs-table-scroll" id="csTableScroll">
+          <div class="cs-table-header">
+            <div>Part Number</div>
+            <div>STO</div>
+            <div>Deskripsi</div>
+            <div>Satuan</div>
+            <div>Harga</div>
+            <div>Stock Akhir</div>
+            <div>Total Harga</div>
+            <div>Seksi</div>
+            <div>Lokasi</div>
+            <div>Status PN</div>
+            <div>QR Code</div>
+            <div>Foto</div>
+            <div>Grade</div>
+            <div>Terakhir STO</div>
+            <div>Stock Sesuai</div>
+            <div>Note STO</div>
+            <div>Level Stock</div>
+            <div>Stock Awal</div>
+            <div>SRD</div>
+            <div>Stock Masuk</div>
+            <div>Stock Keluar</div>
+            <div>Status Stock</div>
+            <div>Type</div>
+            <div>Group</div>
+            <div>Lama Order</div>
+            <div>Efek Kerusakan</div>
+            <div>Waktu Pengganti</div>
+            <div>Lemari</div>
+            <div>Kategori PN</div>
+            <div>Edit</div>
+          </div>
+
+          <div class="cs-table-body" id="tableBody"></div>
+        </div>
+
+        <div class="cs-empty hidden" id="emptyState">
+          Data CHECK STOCK tidak ditemukan.
+        </div>
+      </section>
+    </section>
+
+    <section class="cs-detail hidden" id="detailPanel">
+      <div class="cs-detail-top">
+        <button class="cs-back-btn" id="closeDetailBtn" type="button" aria-label="Kembali ke tabel">←</button>
+        <h2>Detail Check Stock</h2>
+      </div>
+
+      <div class="cs-detail-grid">
+        <div class="cs-detail-image-card">
+          <div class="cs-detail-image-wrap">
+            <img id="detailImage" alt="Gambar Part" />
+          </div>
+
+          <div class="cs-detail-barcode-wrap">
+            <img id="detailBarcodeImage" alt="Barcode Part" />
+          </div>
+
+          <p class="cs-detail-image-note">
+            Foto dan barcode akan mengambil dari data STOCK jika tersedia. Jika diisi manual di CHECK STOCK, data manual diprioritaskan.
+          </p>
+        </div>
+
+        <div class="cs-detail-info-card" id="detailInfo"></div>
+      </div>
+    </section>
+  </main>
+
+  <button class="cs-index-back-btn" id="backToIndexBtn" type="button" aria-label="Kembali ke index">
+    ←
+  </button>
+
+  <div class="cs-modal hidden" id="formModal">
+    <div class="cs-modal-backdrop" id="formModalBackdrop"></div>
+
+    <div class="cs-modal-panel">
+      <div class="cs-modal-header">
+        <div>
+          <h2 id="formTitle">Tambah Data CHECK STOCK</h2>
+          <p>Isi data lalu klik save untuk masuk ke tabel.</p>
+        </div>
+
+        <button class="cs-modal-close" id="closeFormBtn" type="button">×</button>
+      </div>
+
+      <form id="csForm" class="cs-form">
+        <input type="hidden" id="editId" />
+
+        <div class="cs-form-grid">
+          <label class="cs-form-group"><span>Part Number</span><input type="text" id="partNumberInput" required></label>
+          <label class="cs-form-group"><span>STO</span><input type="text" id="stoInput"></label>
+          <label class="cs-form-group"><span>Deskripsi</span><input type="text" id="descriptionInput" required></label>
+          <label class="cs-form-group"><span>Satuan</span><input type="text" id="satuanInput"></label>
+          <label class="cs-form-group"><span>Harga</span><input type="number" id="hargaInput" min="0"></label>
+
+          <label class="cs-form-group">
+            <span>Stock Akhir</span>
+            <input type="number" id="stockAkhirInput" min="0" readonly>
+          </label>
+
+          <label class="cs-form-group">
+            <span>Seksi</span>
+            <select id="seksiInput" required>
+              <option value="">Pilih Seksi</option>
+              <option value="PEWE0">PEWE0</option>
+              <option value="PEWE1">PEWE1</option>
+              <option value="PEWE2">PEWE2</option>
+              <option value="PEWE3">PEWE3</option>
+              <option value="PEWE4">PEWE4</option>
+              <option value="PEWE6">PEWE6</option>
+            </select>
+          </label>
+
+          <label class="cs-form-group"><span>Lokasi</span><input type="text" id="lokasiInput"></label>
+          <label class="cs-form-group"><span>Status PN</span><input type="text" id="statusPnInput"></label>
+          <label class="cs-form-group"><span>QR Code Text</span><input type="text" id="qrCodeInput"></label>
+          <label class="cs-form-group"><span>Foto Manual</span><input type="text" id="fotoInput" placeholder="opsional"></label>
+          <label class="cs-form-group"><span>Barcode Manual</span><input type="text" id="barcodeInput" placeholder="opsional"></label>
+          <label class="cs-form-group"><span>Grade</span><input type="text" id="gradeInput"></label>
+          <label class="cs-form-group"><span>Terakhir STO</span><input type="datetime-local" id="terakhirStoInput"></label>
+
+          <label class="cs-form-group">
+            <span>Stock Sesuai</span>
+            <select id="stockSesuaiInput">
+              <option value="">Pilih</option>
+              <option value="IYA">IYA</option>
+              <option value="TIDAK">TIDAK</option>
+            </select>
+          </label>
+
+          <label class="cs-form-group"><span>Note STO</span><input type="text" id="noteStoInput"></label>
+
+          <label class="cs-form-group">
+            <span>Level Stock</span>
+            <input type="text" id="levelStockInput" readonly>
+          </label>
+
+          <label class="cs-form-group"><span>Stock Awal</span><input type="number" id="stockAwalInput" min="0"></label>
+          <label class="cs-form-group"><span>SRD</span><input type="text" id="srdInput"></label>
+          <label class="cs-form-group"><span>Stock Masuk</span><input type="number" id="stockMasukInput" min="0"></label>
+          <label class="cs-form-group"><span>Stock Keluar</span><input type="number" id="stockKeluarInput" min="0"></label>
+
+          <label class="cs-form-group">
+            <span>Status Stock</span>
+            <input type="text" id="statusStockInput" readonly>
+          </label>
+
+          <label class="cs-form-group"><span>Type</span><input type="text" id="typeInput"></label>
+          <label class="cs-form-group"><span>Group</span><input type="text" id="groupInput"></label>
+          <label class="cs-form-group"><span>Lama Order</span><input type="text" id="lamaOrderInput"></label>
+          <label class="cs-form-group"><span>Efek Kerusakan</span><input type="text" id="efekKerusakanInput"></label>
+          <label class="cs-form-group"><span>Waktu Pengganti</span><input type="text" id="waktuPenggantiInput"></label>
+          <label class="cs-form-group"><span>Lemari</span><input type="text" id="lemariInput"></label>
+          <label class="cs-form-group cs-form-group--wide"><span>Kategori PN</span><input type="text" id="kategoriPnInput"></label>
+        </div>
+
+        <div class="cs-form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelFormBtn">Batal</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="rowTemplate">
+    <article class="cs-row">
+      <div class="col-partNumber"></div>
+      <div class="col-sto"></div>
+      <div class="col-description"></div>
+      <div class="col-satuan"></div>
+      <div class="col-harga"></div>
+      <div class="col-stockAkhir"></div>
+      <div class="col-totalHarga"></div>
+      <div class="col-seksi"></div>
+      <div class="col-lokasi"></div>
+      <div class="col-statusPn"></div>
+      <div class="col-qrCode"></div>
+      <div class="col-foto"></div>
+      <div class="col-grade"></div>
+      <div class="col-terakhirSto"></div>
+      <div class="col-stockSesuai"></div>
+      <div class="col-noteSto"></div>
+      <div class="col-levelStock"></div>
+      <div class="col-stockAwal"></div>
+      <div class="col-srd"></div>
+      <div class="col-stockMasuk"></div>
+      <div class="col-stockKeluar"></div>
+      <div class="col-statusStock"></div>
+      <div class="col-type"></div>
+      <div class="col-group"></div>
+      <div class="col-lamaOrder"></div>
+      <div class="col-efekKerusakan"></div>
+      <div class="col-waktuPengganti"></div>
+      <div class="col-lemari"></div>
+      <div class="col-kategoriPn"></div>
+      <div class="col-edit"></div>
+    </article>
+  </template>
+
+  <script src="cs.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard AHM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="layout" id="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <div class="logo-wrap">
+          <img
+            src="https://seeklogo.com/images/A/ahm-logo-DF87D9699E-seeklogo.com.png"
+            alt="AHM Logo"
+            class="ahm-logo"
+          />
+        </div>
+
+        <div class="user-box">
+          <div class="user-icon" id="userAvatar">👤</div>
+          <div class="user-text">
+            <strong id="loggedUserName">Nama User</strong>
+            <span id="loggedUserId">No ID</span>
+          </div>
+        </div>
+
+        <nav class="menu-list">
+          <a href="Stock.html"><button class="menu-btn" data-section="stock">Jumlah Stock</button></a>
+          <a href="cs.html"><button class="menu-btn" data-section="check">Check Stock</button></a>
+          <a href="mp.html"><button class="menu-btn" data-section="mp">Daftar MP</button></a>
+          <a href="ds.html"><button class="menu-btn" data-section="seksi">Daftar Seksi</button></a>
+          <a href="sto.html"><button class="menu-btn" data-section="sto">STO</button></a>
+          <a href="dr.html"><button class="menu-btn" data-section="rak">Daftar Rak</button></a>
+          <a href="pn.html"><button class="menu-btn" data-section="pn-fie">PN-FIE</button></a>
+          <a href="it.html"><button class="menu-btn" data-section="pn-fie">Issue Tracker</button></a>
+          <a href="ro.html"><button class="menu-btn" data-section="pn-fie">Rekomendasi Order</button></a>
+          <a href="si.html"><button class="menu-btn" data-section="pn-fie">Stock In</button></a>
+          <a href="so.html"><button class="menu-btn" data-section="pn-fie">Stock Out</button></a>
+        </nav>
+
+        <button class="logout-btn" id="logoutBtn">LOG OUT</button>
+      </div>
+    </aside>
+
+    <button class="collapse-handle" id="collapseBtn" aria-label="Toggle sidebar">
+      <span id="collapseIcon">&lt;</span>
+    </button>
+
+    <main class="content">
+      <div class="dashboard-header">
+        <div>
+          <p class="eyebrow">Welcome to,</p>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+
+        <div class="header-tools">
+          <button class="bell-notif hidden" id="bellNotifBtn" type="button" title="Lihat Perlu Stock">
+            <span class="bell-icon">🔔</span>
+            <span class="bell-badge" id="bellNotifCount">0</span>
+          </button>
+
+    
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="globalSearch" placeholder="Cari data..." />
+          </div>
+        </div>
+      </div>
+
+      <a href="Stock.html">
+        <section class="card-grid">
+          <article class="small-card card-purple">
+            <span class="card-dot"></span>
+            <p>Total Stock</p>
+            <h3 id="totalStockCard">0</h3>
+          </article>
+      </a>
+
+      <a href="cs.html">
+        <article class="small-card card-pink">
+          <span class="card-dot"></span>
+          <p>Stock Aman</p>
+          <h3 id="stockAmanCard">0</h3>
+        </article>
+      </a>
+
+      <a href="pc.html">
+        <article class="small-card card-green">
+          <span class="card-dot"></span>
+          <p>Perlu Cek</p>
+          <h3 id="perluCekCard">0</h3>
+        </article>
+      </a>
+
+      <a href="ds.html">
+        <article class="small-card card-blue">
+          <span class="card-dot"></span>
+          <p>Seksi Aktif</p>
+          <h3>7</h3>
+        </article>
+      </a>
+      </section>
+
+      <section class="hero-panel">
+        <div class="hero-left">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Grafik Operasional</p>
+              <h2>Supply vs Pengeluaran Mingguan</h2>
+            </div>
+            <button class="soft-btn" id="randomizeBtn">Refresh</button>
+          </div>
+
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span class="legend-dot legend-in"></span>
+              <span>Pemasokan / Stock In</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot legend-out"></span>
+              <span>Pengeluaran / Stock Out</span>
+            </div>
+          </div>
+
+          <div class="chart-note">
+            Klik batang ungu untuk buka <strong>Stock In</strong>, klik batang pink untuk buka <strong>Stock Out</strong>.
+          </div>
+
+          <div class="chart-shell">
+            <div class="chart-wrap">
+              <canvas id="stockChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="mini-panel mini-purple">
+            <h4>Total Pemasokan</h4>
+            <p id="totalMasukInfo">0 item</p>
+          </div>
+          <div class="mini-panel mini-pink">
+            <h4>Total Pengeluaran</h4>
+            <p id="totalKeluarInfo">0 item</p>
+          </div>
+          <div class="mini-panel mini-green">
+            <h4>Minggu Supply Tertinggi</h4>
+            <p id="mingguMasukTertinggi">-</p>
+          </div>
+          <div class="mini-panel mini-blue">
+            <h4>Minggu Keluar Tertinggi</h4>
+            <p id="mingguKeluarTertinggi">-</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-panel active" id="stockPanel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Inventory</p>
+            <h2>Jumlah Stock</h2>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Foto Produk</th>
+                <th>Nama Part</th>
+                <th>Kategori</th>
+                <th>Stock</th>
+                <th>Lokasi</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="stock-empty hidden" id="stockEmptyState">
+          Data jumlah stock belum tersedia.
+        </div>
+      </section>
+
+      <section class="data-panel" id="checkPanel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Verifikasi</p>
+            <h2>Check Stock</h2>
+          </div>
+        </div>
+
+        <div class="list-wrap">
+          <div class="list-item">
+            <strong>Label Roll</strong>
+            <span>Pending Check</span>
+          </div>
+          <div class="list-item">
+            <strong>Carton Box</strong>
+            <span>Valid</span>
+          </div>
+          <div class="list-item">
+            <strong>Tinta Printer</strong>
+            <span>Low Stock</span>
+          </div>
+          <div class="list-item">
+            <strong>Safety Gloves</strong>
+            <span>Checked</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-panel" id="mpPanel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Petugas</p>
+            <h2>Daftar MP</h2>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID MP</th>
+                <th>Nama</th>
+                <th>Shift</th>
+                <th>Seksi</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>MP-001</td>
+                <td>Andi Saputra</td>
+                <td>Pagi</td>
+                <td>Warehouse</td>
+                <td>Aktif</td>
+              </tr>
+              <tr>
+                <td>MP-002</td>
+                <td>Dewi Lestari</td>
+                <td>Siang</td>
+                <td>Packaging</td>
+                <td>Aktif</td>
+              </tr>
+              <tr>
+                <td>MP-003</td>
+                <td>Rian Pratama</td>
+                <td>Malam</td>
+                <td>QC</td>
+                <td>Aktif</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="data-panel" id="seksiPanel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Bagian</p>
+            <h2>Daftar Seksi</h2>
+          </div>
+        </div>
+
+        <div class="list-wrap">
+          <div class="list-item">
+            <strong>Warehouse</strong>
+            <span>12 MP</span>
+          </div>
+          <div class="list-item">
+            <strong>Packaging</strong>
+            <span>9 MP</span>
+          </div>
+          <div class="list-item">
+            <strong>Quality Control</strong>
+            <span>7 MP</span>
+          </div>
+          <div class="list-item">
+            <strong>Logistik</strong>
+            <span>6 MP</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

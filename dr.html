@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Rak</title>
+  <link rel="stylesheet" href="dr.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="logo">AHM</div>
+
+      <div class="sidebar-shape">
+        <ul id="sidebarRackList" class="rack-list"></ul>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <h1>DAFTAR RAK</h1>
+
+        <button id="addBtn" class="add-btn" title="Tambah data">+</button>
+      </header>
+
+      <section class="filter-bar">
+        <div class="filter-title">
+          <span class="filter-icon">⌁</span>
+          <span>FILTER</span>
+        </div>
+
+        <div class="filter-controls">
+          <div class="input-group">
+            <label for="filterKodeRak">Kode Rak</label>
+            <input type="text" id="filterKodeRak" placeholder="Cari kode rak..." />
+          </div>
+
+          <div class="input-group">
+            <label for="filterRuangan">Ruangan</label>
+            <input type="text" id="filterRuangan" placeholder="Cari ruangan..." />
+          </div>
+        </div>
+      </section>
+
+      <section class="table-wrapper">
+        <div class="table-header">
+          <div>Seksi</div>
+          <div>Kode Rak</div>
+          <div>Lemari</div>
+          <div>Ruangan</div>
+          <div>Keterangan</div>
+          <div>Kode Rak/Seksi</div>
+          <div>Aksi</div>
+        </div>
+
+        <div id="tableContent" class="table-content"></div>
+      </section>
+
+      <div class="bottom-actions">
+        <button class="back-btn" onclick="window.location.href='index.html'">&#8592;</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Form -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Tambah Data Rak</h2>
+        <button id="closeModalBtn" class="close-modal">&times;</button>
+      </div>
+
+      <form id="rackForm" class="rack-form">
+        <input type="hidden" id="editIndex" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="seksi">Seksi</label>
+            <input type="text" id="seksi" required />
+          </div>
+
+          <div class="form-group">
+            <label for="kodeRak">Kode Rak</label>
+            <input type="text" id="kodeRak" required />
+          </div>
+
+          <div class="form-group">
+            <label for="lemari">Lemari</label>
+            <input type="text" id="lemari" placeholder="Contoh: A / B / C" required />
+          </div>
+
+          <div class="form-group">
+            <label for="ruangan">Ruangan</label>
+            <input type="text" id="ruangan" required />
+          </div>
+
+          <div class="form-group">
+            <label for="keterangan">Keterangan</label>
+            <input type="text" id="keterangan" />
+          </div>
+
+          <div class="form-group">
+            <label for="kodeRakSeksi">Kode Rak / Seksi</label>
+            <input type="text" id="kodeRakSeksi" required />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="dr.js"></script>
+</body>
+</html>

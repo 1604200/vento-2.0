@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar MP</title>
+  <link rel="stylesheet" href="mp.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="logo-ahm">
+        <img src="https://seeklogo.com/images/A/ahm-logo-DF87D9699E-seeklogo.com.png" alt="AHM Logo" />
+      </div>
+
+      <button class="filter-btn active" data-filter="ALL">ALL</button>
+      <button class="filter-btn" data-filter="PWES1">PWES1</button>
+      <button class="filter-btn" data-filter="PWES2">PWES2</button>
+      <button class="filter-btn" data-filter="PWES3">PWES3</button>
+      <button class="filter-btn" data-filter="PWES4">PWES4</button>
+      <button class="filter-btn" data-filter="PWES6">PWES6</button>
+      <button class="filter-btn" data-filter="PEC4">PEC4</button>
+      <button class="filter-btn" data-filter="PEWE2">PEWE2</button>
+
+      <a class="back-link" href="index.html">← Back</a>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <h1 class="page-title">Daftar MP</h1>
+
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari nama, NRP, seksi, email..."
+          />
+          <button id="searchButton" type="button" aria-label="Cari">🔍</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="table-head">
+          <div>Nama</div>
+          <div>NRP</div>
+          <div>Seksi</div>
+          <div>No Whatsapp</div>
+          <div>Gmail Aktif</div>
+          <div>Email Astra</div>
+          <div>KJ</div>
+          <div>Status</div>
+          <div>Aksi</div>
+        </div>
+      </div>
+
+      <div id="groupContainer" class="group-container"></div>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="editModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Edit Data MP</h3>
+        <button class="close-btn" id="closeModal" type="button">×</button>
+      </div>
+
+      <form id="editForm">
+        <input type="hidden" id="editId" />
+
+        <div class="form-grid">
+          <label>
+            Nama
+            <input type="text" id="editNama" required />
+          </label>
+
+          <label>
+            NRP
+            <input type="text" id="editNrp" required />
+          </label>
+
+          <label>
+            Seksi
+            <select id="editSeksi" required>
+              <option value="PWES1">PWES1</option>
+              <option value="PWES2">PWES2</option>
+              <option value="PWES3">PWES3</option>
+              <option value="PWES4">PWES4</option>
+              <option value="PWES6">PWES6</option>
+              <option value="PEC4">PEC4</option>
+              <option value="PEWE2">PEWE2</option>
+            </select>
+          </label>
+
+          <label>
+            No Whatsapp
+            <input type="text" id="editWhatsapp" required />
+          </label>
+
+          <label>
+            Gmail Aktif
+            <input type="email" id="editGmail" required />
+          </label>
+
+          <label>
+            Email Astra
+            <input type="email" id="editAstra" required />
+          </label>
+
+          <label>
+            KJ
+            <select id="editKj" required>
+              <option value="KJ9">KJ9</option>
+              <option value="KJ8">KJ8</option>
+              <option value="KJ7">KJ7</option>
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select id="editStatus" required>
+              <option value="AKTIF">AKTIF</option>
+              <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="resetDataBtn">Reset Data</button>
+          <button type="submit" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="mp.js"></script>
+</body>
+</html>

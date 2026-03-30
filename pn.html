@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PN/FIE</title>
+  <link rel="stylesheet" href="pn.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="logo">AHM</div>
+
+      <h1 class="page-title">PN-FIE</h1>
+
+      <div class="top-actions">
+        <button id="addBtn" class="add-btn" title="Tambah data">+</button>
+      </div>
+    </header>
+
+    <section class="filter-panel">
+      <div class="filter-label">
+        <span class="filter-icon">⌁</span>
+        <span>FILTER</span>
+      </div>
+
+      <div class="filter-controls">
+        <div class="filter-group filter-search">
+          <label for="searchInput">Search</label>
+          <div class="search-wrap">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari material, number, PO text..."
+            />
+            <button class="search-btn" id="searchBtn" type="button">⌕</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterPlant">Plant</label>
+          <select id="filterPlant">
+            <option value="">Semua</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterMaterialGroup">Material Group</label>
+          <select id="filterMaterialGroup">
+            <option value="">Semua</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterUom">UOM</label>
+          <select id="filterUom">
+            <option value="">Semua</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <button id="resetFilterBtn" class="reset-filter-btn" type="button">
+            Reset
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main class="content">
+      <section class="table-section">
+        <div class="table-header">
+          <div>Material Description</div>
+          <div>Material Number</div>
+          <div>Plant</div>
+          <div>PO Text</div>
+          <div>Material Types</div>
+          <div>Material Group</div>
+          <div>UOM</div>
+          <div>Order Unit</div>
+          <div>Unit Of Issue</div>
+          <div>Flag Deletion</div>
+          <div>Create by</div>
+          <div>Aksi</div>
+        </div>
+
+        <div id="tableBody" class="table-body"></div>
+      </section>
+
+      <div class="bottom-actions">
+        <button id="backBtn" class="back-btn">&#8592;</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Tambah Data PN/FIE</h2>
+        <button id="closeModalBtn" class="close-modal" type="button">&times;</button>
+      </div>
+
+      <form id="pnForm" class="pn-form">
+        <input type="hidden" id="editIndex" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="materialDescription">Material Description</label>
+            <input type="text" id="materialDescription" required />
+          </div>
+
+          <div class="form-group">
+            <label for="materialNumber">Material Number</label>
+            <input type="text" id="materialNumber" required />
+          </div>
+
+          <div class="form-group">
+            <label for="plant">Plant</label>
+            <input type="text" id="plant" required />
+          </div>
+
+          <div class="form-group">
+            <label for="poText">PO Text</label>
+            <input type="text" id="poText" />
+          </div>
+
+          <div class="form-group">
+            <label for="materialTypes">Material Types</label>
+            <input type="text" id="materialTypes" />
+          </div>
+
+          <div class="form-group">
+            <label for="materialGroup">Material Group</label>
+            <input type="text" id="materialGroup" />
+          </div>
+
+          <div class="form-group">
+            <label for="uom">UOM</label>
+            <input type="text" id="uom" />
+          </div>
+
+          <div class="form-group">
+            <label for="orderUnit">Order Unit</label>
+            <input type="text" id="orderUnit" />
+          </div>
+
+          <div class="form-group">
+            <label for="unitOfIssue">Unit Of Issue</label>
+            <input type="text" id="unitOfIssue" />
+          </div>
+
+          <div class="form-group">
+            <label for="flagDeletion">Flag Deletion</label>
+            <input type="text" id="flagDeletion" />
+          </div>
+
+          <div class="form-group">
+            <label for="createBy">Create by</label>
+            <input type="text" id="createBy" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="pn.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login Inventory</title>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+body{
+margin:0;
+font-family:'Plus Jakarta Sans',sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff7eb6,#5b6cff);
+}
+
+.login-box{
+width:340px;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.avatar{
+width:90px;
+height:90px;
+border-radius:20px;
+background:#f3eaff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:38px;
+margin:auto;
+margin-bottom:20px;
+}
+
+h2{
+margin-bottom:5px;
+}
+
+p{
+color:#777;
+font-size:14px;
+margin-bottom:20px;
+}
+
+.input-wrap{
+position:relative;
+}
+
+input{
+width:100%;
+padding:14px;
+padding-right:80px;
+border-radius:12px;
+border:1px solid #ddd;
+box-sizing:border-box;
+}
+
+.next{
+position:absolute;
+right:5px;
+top:5px;
+bottom:5px;
+background:#25c36f;
+border:none;
+padding:0 15px;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.scan{
+width:100%;
+margin-top:15px;
+padding:14px;
+background:linear-gradient(90deg,#ff7eb6,#5b6cff);
+border:none;
+color:white;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+#status{
+margin-top:12px;
+font-weight:bold;
+min-height:20px;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+}
+
+.modal-box{
+background:white;
+padding:30px;
+border-radius:20px;
+width:350px;
+text-align:center;
+position:relative;
+}
+
+video{
+width:100%;
+border-radius:15px;
+background:black;
+}
+
+.capture{
+margin-top:10px;
+padding:10px 20px;
+background:#25c36f;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+cursor:pointer;
+font-size:18px;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<div class="login-box">
+
+<div class="avatar">👤</div>
+
+<h2>Login</h2>
+
+<p>Masukkan ID atau scan kartu</p>
+
+<div class="input-wrap">
+<input type="text" id="idInput" placeholder="Masukkan ID">
+<button class="next" id="nextBtn">NEXT</button>
+</div>
+
+<button class="scan" id="scanBtn">SCAN ID CARD</button>
+
+<p id="status"></p>
+
+</div>
+
+
+<div id="cameraModal" class="modal">
+
+<div class="modal-box">
+
+<span class="close" id="closeCamera">✖</span>
+
+<h3>Scan ID Card</h3>
+
+<video id="video" autoplay></video>
+
+<button class="capture" id="captureBtn">CAPTURE</button>
+
+<p id="cameraStatus"></p>
+
+</div>
+
+</div>
+
+
+<canvas id="canvas" style="display:none"></canvas>
+
+
+<script>
+
+const users = [
+
+{nama:"SUTRISNO",id:"16663"},
+{nama:"MOH SOFYAN",id:"59549"},
+{nama:"JONI HARIYONO",id:"17019"},
+{nama:"ARIMARK TV",id:"47994"},
+{nama:"SUKIRNO",id:"17221"},
+{nama:"AAT SOLIHAT",id:"17341"},
+{nama:"GUNAWAN",id:"17192"},
+{nama:"SYAIFUL BAHRI",id:"19679"},
+{nama:"AGUS SANTOSO",id:"36235"},
+{nama:"AKHMAD SOBIR",id:"37031"},
+{nama:"VIRGINIA REGITA SARI",id:"PKL 25"}
+
+];
+
+function loginSuccess(user){
+
+localStorage.setItem("verifiedName",user.nama);
+localStorage.setItem("verifiedId",user.id);
+
+document.getElementById("status").innerText="Login Berhasil";
+
+setTimeout(()=>{
+
+window.location.href="./index.html";
+
+},700);
+
+}
+
+document.getElementById("nextBtn").onclick=()=>{
+
+let id=document.getElementById("idInput").value.trim();
+
+let user=users.find(u=>u.id===id);
+
+if(user){
+
+loginSuccess(user);
+
+}else{
+
+document.getElementById("status").innerText="ID Tidak Terdaftar";
+
+}
+
+};
+
+
+const modal=document.getElementById("cameraModal");
+const video=document.getElementById("video");
+const canvas=document.getElementById("canvas");
+const capture=document.getElementById("captureBtn");
+
+let stream;
+
+document.getElementById("scanBtn").onclick=async()=>{
+
+modal.style.display="flex";
+
+try{
+
+stream=await navigator.mediaDevices.getUserMedia({video:true});
+
+video.srcObject=stream;
+
+}catch{
+
+document.getElementById("cameraStatus").innerText="Kamera tidak bisa dibuka";
+
+}
+
+};
+
+document.getElementById("closeCamera").onclick=()=>{
+
+modal.style.display="none";
+
+if(stream){
+stream.getTracks().forEach(track=>track.stop());
+}
+
+};
+
+capture.onclick=async()=>{
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+ctx.drawImage(video,0,0);
+
+document.getElementById("cameraStatus").innerText="Scanning...";
+
+const {data:{text}} = await Tesseract.recognize(canvas,"eng");
+
+let clean=text.toUpperCase();
+
+let found=users.find(u=>clean.includes(u.id));
+
+if(found){
+
+loginSuccess(found);
+
+modal.style.display="none";
+
+stream.getTracks().forEach(track=>track.stop());
+
+}else{
+
+document.getElementById("cameraStatus").innerText="ID tidak dikenali";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>

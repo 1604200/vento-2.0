@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekomendasi Order</title>
+  <link rel="stylesheet" href="ro.css" />
+</head>
+<body>
+  <main class="board">
+    <header class="page-header">
+      <div class="brand">AHM</div>
+      <h1>REKOMENDASI ORDER</h1>
+      <button id="btnAdd" class="icon-circle add-btn" aria-label="Tambah data">+</button>
+    </header>
+
+    <section class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-window">
+          <div class="window-dots">
+            <span class="dot red"></span>
+            <span class="dot green"></span>
+          </div>
+
+          <div class="sidebar-title-row">
+            <h2>Filter</h2>
+            <button id="btnResetFilter" class="btn-link" type="button">Reset</button>
+          </div>
+
+          <div class="filter-box">
+            <label for="searchInput">Cari PN / deskripsi</label>
+            <input id="searchInput" type="text" placeholder="Contoh: EL-SEN-04408" />
+          </div>
+
+          <div class="filter-box">
+            <label for="filterSeksi">Seksi</label>
+            <select id="filterSeksi">
+              <option value="">Semua</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label for="filterSrs">SRS</label>
+            <select id="filterSrs">
+              <option value="">Semua</option>
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label for="filterType">Type</label>
+            <select id="filterType">
+              <option value="">Semua</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label for="filterKategori">Kategori PN</label>
+            <select id="filterKategori">
+              <option value="">Semua</option>
+            </select>
+          </div>
+
+          <div class="section-summary">
+            <div class="summary-head">
+              <strong>Total per Seksi</strong>
+              <span>Rp otomatis</span>
+            </div>
+            <div id="sectionTotals" class="section-total-list"></div>
+          </div>
+        </div>
+
+        <a href="index.html"><button class="icon-circle back-btn" aria-label="Kembali">‹</button></a>
+      </aside>
+
+      <section class="content">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Satuan</th>
+                <th>Harga</th>
+                <th>Lokasi</th>
+                <th>Stock Akhir</th>
+                <th>Level Stock</th>
+                <th>Stock Minus</th>
+                <th>Budget Order</th>
+                <th>Type</th>
+                <th>Kategori PN</th>
+                <th>Foto</th>
+                <th>SRS</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+          Tidak ada data yang cocok dengan filter.
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="rowDialog" class="row-dialog">
+    <form id="rowForm">
+      <div class="dialog-head">
+        <h3 id="dialogTitle">Tambah Data</h3>
+        <button type="button" id="closeDialog" class="btn-close">×</button>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          Seksi
+          <input name="seksi" required placeholder="Contoh: PEWS1" />
+        </label>
+
+        <label>
+          Part Number
+          <input name="partNumber" required />
+        </label>
+
+        <label>
+          Description
+          <input name="description" required />
+        </label>
+
+        <label>
+          Satuan
+          <input name="satuan" required value="SET" />
+        </label>
+
+        <label>
+          Harga
+          <input name="harga" type="number" min="0" required />
+        </label>
+
+        <label>
+          Lokasi
+          <input name="lokasi" placeholder="Contoh: A.5" />
+        </label>
+
+        <label>
+          Stock Akhir
+          <input name="stockAkhir" type="number" min="0" required />
+        </label>
+
+        <label>
+          Level Stock
+          <input name="levelStock" type="number" min="0" required />
+        </label>
+
+        <label>
+          Stock Minus
+          <input name="stockMinus" type="number" min="0" required />
+        </label>
+
+        <label>
+          Type
+          <input name="type" placeholder="Contoh: Electrical" />
+        </label>
+
+        <label>
+          Kategori PN
+          <input name="kategoriPn" placeholder="Contoh: Sensor" />
+        </label>
+
+        <label>
+          SRS
+          <select name="srs">
+            <option value="N">N</option>
+            <option value="Y">Y</option>
+          </select>
+        </label>
+
+        <div class="full-span upload-area">
+          <label for="fotoFile">Upload Foto</label>
+          <input id="fotoFile" name="fotoFile" type="file" accept="image/*" />
+          <div class="photo-preview-wrap">
+            <div id="photoPreview" class="photo-preview-empty">Belum ada foto</div>
+            <button type="button" id="btnRemovePhoto" class="btn-secondary btn-remove-photo">
+              Hapus Foto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" id="cancelDialog" class="btn-secondary">Batal</button>
+        <button type="submit" class="btn-primary">Simpan</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="ro.js"></script>
+</body>
+</html>

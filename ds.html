@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Seksi</title>
+  <link rel="stylesheet" href="ds.css" />
+</head>
+<body>
+  <main class="ds-page">
+    <section class="ds-board">
+      <div class="logo-ahm">
+        <img src="https://seeklogo.com/images/A/ahm-logo-DF87D9699E-seeklogo.com.png" alt="AHM Logo">
+      </div>
+
+      <div class="top-layout">
+        <!-- KIRI -->
+        <section class="kode-section">
+          <h2 class="section-title">KODE SEKSI</h2>
+          <div id="seksiList" class="seksi-list"></div>
+
+          <a href="index.html" class="back-btn" aria-label="Back">
+            <span>&larr;</span>
+          </a>
+        </section>
+
+        <!-- TENGAH -->
+        <section class="dept-section">
+          <h2 class="section-title">DEPT</h2>
+          <div id="deptList" class="dept-list"></div>
+        </section>
+
+        <!-- KANAN -->
+        <section class="ket-section">
+          <div class="ket-shadow"></div>
+
+          <div class="ket-card">
+            <div class="ket-header">
+              <div class="dots">
+                <span class="dot yellow"></span>
+                <span class="dot pink"></span>
+              </div>
+              <h2>KETERANGAN</h2>
+            </div>
+
+            <div id="keteranganList" class="ket-body"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- DETAIL TERHUBUNG -->
+      <section id="detailPanel" class="detail-panel hidden">
+        <div class="detail-header">
+          <div>
+            <h2 id="detailTitle">Detail Seksi</h2>
+            <p id="detailSubtitle">Menampilkan semua data terhubung berdasarkan seksi dan plant.</p>
+          </div>
+          <button id="closeDetailBtn" class="close-detail-btn">Tutup</button>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span class="summary-label">Seksi</span>
+            <strong id="summarySeksi">-</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label">Plant</span>
+            <strong id="summaryPlant">-</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label">Total Stock</span>
+            <strong id="summaryStock">0</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label">Total MP</span>
+            <strong id="summaryMP">0</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label">Aktivitas Server</span>
+            <strong id="summaryServer">0</strong>
+          </div>
+          <div class="summary-card">
+            <span class="summary-label">Aktivitas Lain</span>
+            <strong id="summaryActivity">0</strong>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>Data Stock</h3>
+            <div id="stockContainer" class="table-wrap"></div>
+          </div>
+
+          <div class="detail-card">
+            <h3>Data MP</h3>
+            <div id="mpContainer" class="table-wrap"></div>
+          </div>
+
+          <div class="detail-card">
+            <h3>Aktivitas Server</h3>
+            <div id="serverContainer" class="table-wrap"></div>
+          </div>
+
+          <div class="detail-card">
+            <h3>Aktivitas Lain</h3>
+            <div id="activityContainer" class="table-wrap"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="ds.js"></script>
+</body>
+</html>

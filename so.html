@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Out</title>
+  <link rel="stylesheet" href="so.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar-card">
+      <div class="window-dots">
+        <span class="dot yellow"></span>
+        <span class="dot peach"></span>
+      </div>
+
+      <h1 class="title">STOCK OUT</h1>
+
+      <nav class="section-menu">
+        <button class="section-btn active" data-section="ALL">Semua</button>
+        <button class="section-btn" data-section="PEWS1">PEWS1</button>
+        <button class="section-btn" data-section="PEWS2">PEWS2</button>
+        <button class="section-btn" data-section="PEWS3">PEWS3</button>
+        <button class="section-btn" data-section="PEWS4">PEWS4</button>
+      </nav>
+    </aside>
+
+    <main class="content-area">
+      <div class="top-actions">
+        <div class="filter-group">
+          <button class="filter-toggle" id="toggleFilter">Filter</button>
+
+          <div class="filter-panel hidden" id="filterPanel">
+            <div class="filter-item">
+              <label for="filterUser">User / PIC</label>
+              <select id="filterUser">
+                <option value="ALL">Semua User</option>
+              </select>
+            </div>
+
+            <div class="filter-item">
+              <label for="searchInput">Cari</label>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari part number / deskripsi / lokasi / WO..."
+              />
+            </div>
+
+            <button class="btn-reset-filter" id="resetFilter">Reset Filter</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="download-btn" id="downloadExcel" title="Download Excel">⬇</button>
+          <button class="add-btn" id="addDataBtn" title="Tambah data">+</button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="table-head">
+          <div class="col section">Seksi</div>
+          <div class="col date">Tanggal</div>
+          <div class="col part-number">Part Number</div>
+          <div class="col qty">Jumlah</div>
+          <div class="col unit">Satuan</div>
+          <div class="col desc">Deskripsi</div>
+          <div class="col location">Lokasi</div>
+          <div class="col srs">SRS</div>
+          <div class="col stock">Current Stock</div>
+          <div class="col pic">PIC</div>
+          <div class="col purpose">Tujuan Penggunaan</div>
+          <div class="col wo">Nomor WO</div>
+          <div class="col asset">Nomor Aset / JO</div>
+          <div class="col receiver">Seksi Penerima</div>
+          <div class="col note">Keterangan</div>
+          <div class="col type">Type</div>
+          <div class="col action">Aksi</div>
+        </div>
+
+        <div id="dataContainer" class="table-body"></div>
+        <div class="empty-state hidden" id="emptyState">
+          Tidak ada data yang sesuai filter.
+        </div>
+      </div>
+
+      <a href="index.html" class="back-home-btn" title="Kembali ke Home">←</a>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="formModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle">Tambah Data Stock Out</h2>
+        <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+
+      <form id="stockForm" class="stock-form">
+        <input type="hidden" id="editId" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="section">Seksi</label>
+            <select id="section" required>
+              <option value="">Pilih Seksi</option>
+              <option value="PEWS1">PEWS1</option>
+              <option value="PEWS2">PEWS2</option>
+              <option value="PEWS3">PEWS3</option>
+              <option value="PEWS4">PEWS4</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">Tanggal</label>
+            <input type="date" id="date" required />
+          </div>
+
+          <div class="form-group">
+            <label for="partNumber">Part Number</label>
+            <input type="text" id="partNumber" required />
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Jumlah</label>
+            <input type="number" id="quantity" min="1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="unit">Satuan</label>
+            <input type="text" id="unit" required />
+          </div>
+
+          <div class="form-group full">
+            <label for="description">Deskripsi</label>
+            <input type="text" id="description" required />
+          </div>
+
+          <div class="form-group">
+            <label for="location">Lokasi</label>
+            <input type="text" id="location" />
+          </div>
+
+          <div class="form-group">
+            <label for="srs">SRS</label>
+            <input type="text" id="srs" />
+          </div>
+
+          <div class="form-group">
+            <label for="currentStock">Current Stock</label>
+            <input type="number" id="currentStock" min="0" required />
+          </div>
+
+          <div class="form-group">
+            <label for="pic">PIC</label>
+            <input type="text" id="pic" required />
+          </div>
+
+          <div class="form-group full">
+            <label for="purpose">Tujuan Penggunaan</label>
+            <input type="text" id="purpose" />
+          </div>
+
+          <div class="form-group">
+            <label for="woNumber">Nomor WO</label>
+            <input type="text" id="woNumber" />
+          </div>
+
+          <div class="form-group">
+            <label for="assetNumber">Nomor Aset / JO</label>
+            <input type="text" id="assetNumber" />
+          </div>
+
+          <div class="form-group">
+            <label for="receiverSection">Seksi Penerima</label>
+            <input type="text" id="receiverSection" />
+          </div>
+
+          <div class="form-group">
+            <label for="note">Keterangan</label>
+            <input type="text" id="note" />
+          </div>
+
+          <div class="form-group">
+            <label for="type">Type</label>
+            <input type="text" id="type" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" id="cancelBtn">Batal</button>
+          <button type="submit" class="btn-save">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="so.js"></script>
+</body>
+</html>
